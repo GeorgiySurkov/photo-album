@@ -209,4 +209,5 @@ dmypy.json
 venv
 __pycache__
 app.db
-media/images/*
+*.jpg
+*.jpeg
