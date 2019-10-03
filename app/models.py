@@ -16,8 +16,8 @@ class Image(db.Model):
         # for dir_entry in os.scandir()
         file = self.file_name
         f_name, f_extension = file.rsplit('.', 1)
-        self.file_path = path_join(app.config['UPLOAD_FOLDER'], normpath(f'images/{file}'))
-        self.thumbnail_path = path_join(app.config['UPLOAD_FOLDER'], normpath(f'thumbnails/{file}'))
+        self.file_path = f'images/{file}'
+        self.thumbnail_path = f'thumbnails/{file}'
 
     def __repr__(self):
         return f'<Image file_name="{self.file_name}">'
