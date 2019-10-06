@@ -1,6 +1,7 @@
 from app import db, app
 from config import BASE_DIR
-from os.path import join as path_join, normpath
+from os import listdir
+from os.path import join, normpath, isfile
 
 
 class Image(db.Model):
@@ -11,10 +12,13 @@ class Image(db.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # TODO check for files with the same names
-        # files = []
-        # for dir_entry in os.scandir()
+        files = []
+        for file in listdir(join(BASE_DIR, normpath('media/images'))):
+            if isfile(join(BASE_DIR, normpath('media/images'), file)):
+                files.append(file)
         file = self.file_name
+        if file in files:
+            raise ValueError('file with this name already exist')
         f_name, f_extension = file.rsplit('.', 1)
         self.file_path = f'images/{file}'
         self.thumbnail_path = f'thumbnails/{file}'

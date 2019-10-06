@@ -1,13 +1,32 @@
-from app import app, db
+from flask import jsonify
+from app import app
 from app.models import Image
 from flask import (
-    render_template, send_from_directory, abort, url_for
+    render_template, send_from_directory, abort, url_for,
+    request
 )
 
 
 @app.route('/')
 def index():
     return render_template('index.html', title='hello')
+
+
+@app.route('/api/<string:method>/')
+def api(method):
+    if method == 'get_images':
+        imgs = Image.query.all()
+        imgs = list(map(
+            lambda img: {
+                'name': img.file_name,
+                'file_url': url_for('media', filename=img.file_path),
+                'thumbnail_url': url_for('media', filename=img.thumbnail_path)
+            },
+            imgs
+        ))
+        return jsonify({'images': imgs})
+    else:
+        abort(404)
 
 
 @app.route('/test')
