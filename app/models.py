@@ -23,5 +23,11 @@ class Image(db.Model):
         self.file_path = f'images/{file}'
         self.thumbnail_path = f'thumbnails/{file}'
 
+    def save_image(self, file):
+        file.save(join(BASE_DIR), 'media', 'images', self.file_name)
+
+    def save_thumbnail(self, file):
+        file.save(join(BASE_DIR), 'media', 'thumbnails', self.file_name)
+
     def __repr__(self):
         return f'<Image file_name="{self.file_name}">'
