@@ -18,6 +18,7 @@ def api(method):
         imgs = Image.query.all()
         imgs = list(map(
             lambda img: {
+                'id': img.id,
                 'name': img.file_name,
                 'file_url': url_for('media', filename=img.file_path),
                 'thumbnail_url': url_for('media', filename=img.thumbnail_path)
