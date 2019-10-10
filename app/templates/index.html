@@ -25,7 +25,7 @@
                         <div class="modal-footer">
                             <slot name="footer">
                                 <button class="modal-default-button" @click="$emit('close')">
-                                    OK
+                                    Close
                                 </button>
                             </slot>
                         </div>
@@ -42,15 +42,26 @@
             <div>Мой фотоальбом</div>
         </div>
         <div class="main">
-            <template v-for="image in images">
+            <div v-for="image in paginatedData">
                 <button @click="image.showModal = true">Show image [[ image.name ]]</button>
                 <modal v-if="image.showModal" @close="image.showModal = false">
                     <div slot="header">[[ image.name ]]</div>
                     <div slot="body"><img class="image" v-bind:src="image.file_url" v-bind:alt="image.name"></div>
                 </modal>
-            </template>
+            </div>
         </div>
-        <div class="footer">Footer</div>
+        <div class="footer">
+            <button
+                    :disabled="pageNumber === 0"
+                    @click="prevPage">
+                Previous
+            </button>
+            <button
+                    :disabled="pageNumber >= pageCount -1"
+                    @click="nextPage">
+                Next
+            </button>
+        </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

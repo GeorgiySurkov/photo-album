@@ -24,7 +24,19 @@ new Vue({
             },
         ],
         pageNumber: 0,
-
+        size: 6
+    },
+    computed: {
+        pageCount() {
+            let l = this.images.length,
+                s = this.size;
+            return Math.ceil(l / s);
+        },
+        paginatedData() {
+            const start = this.pageNumber * this.size,
+                end = start + this.size;
+            return this.images.slice(start, end);
+        }
     },
     methods: {
         nextPage() {
@@ -32,19 +44,6 @@ new Vue({
         },
         prevPage() {
             this.pageNumber--;
-        }
-    },
-    computed: {
-        pageCount() {
-            let l = this.listData.length,
-                s = this.size;
-            return Math.ceil(l / s);
-        },
-        paginatedData() {
-            const start = this.pageNumber * this.size,
-                end = start + this.size;
-            return this.listData
-                .slice(start, end);
         }
     },
 });
