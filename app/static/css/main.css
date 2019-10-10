@@ -11,29 +11,54 @@ body {
             'footer footer footer';
     grid-gap: 5px;
     grid-template-columns: 20% 1fr 20%;
-    grid-template-rows: 100px auto 100px;
+    grid-template-rows: 80px auto 100px;
     background-color: #e3e3e3;
     min-height: 100vh;
 }
 
 .grid-container > div {
     background-color: #f2f2f2;
-    text-align: center;
     padding: 20px 0;
     font-size: 30px;
 }
 
 .header {
     grid-area: header;
+    display: grid;
+    grid-template-columns: 20% 20% 1fr 35% 20%;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'left title none form right';
+}
+
+#title {
+    text-align: center;
+    margin: auto;
+    grid-area: title;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-area: form;
+}
+
+form > div {
+    margin: auto;
+    text-align: center;
 }
 
 .main {
     grid-area: main;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .footer {
     grid-area: footer;
+    text-align: center;
 }
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
