@@ -39,10 +39,20 @@
 {% block body %}
     <div class="grid-container" id="app">
         <div class="header">
-            <div>Мой фотоальбом</div>
+            <div id="title">Мой фотоальбом</div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.image.label }}
+                    {{ form.image() }}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+            </form>
         </div>
         <div class="main">
-            <div v-for="image in paginatedData">
+            <div class="images-container" v-for="image in paginatedData">
                 <button @click="image.showModal = true">Show image [[ image.name ]]</button>
                 <modal v-if="image.showModal" @close="image.showModal = false">
                     <div slot="header">[[ image.name ]]</div>
