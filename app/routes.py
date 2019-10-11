@@ -1,21 +1,43 @@
-from flask import jsonify
-from app import app
-from app.models import Image
+from app import app, db
+from app.thumbnail import generate_thumbnail
+from app.models import ImageModel
+from app.forms import UploadImageForm
 from flask import (
     render_template, send_from_directory, abort, url_for,
-    request
+    request, redirect, jsonify, flash
 )
+from PIL import Image
+from werkzeug.utils import secure_filename
+from os import path
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='hello')
+    form = UploadImageForm()
+    if form.validate_on_submit():
+        f = form.image.data
+        f_name = secure_filename(f.filename)
+        try:
+            i = ImageModel(file_name=f_name)
+            db.session.add(i)
+            db.session.commit()
+            thumbnail = generate_thumbnail(f)
+            thumbnail.save(path.join(app.config['UPLOAD_FOLDER'], 'thumbnails', f_name))
+            img = Image.open(f)
+            img.save(path.join(app.config['UPLOAD_FOLDER'], 'images', f_name))
+        except (ImageModel.DecompressionBombWarning, ImageModel.DecompressionBombError):
+            flash('Decompression bomb error.')
+        except Exception:
+            flash('Something went wrong while saving file')
+            return redirect(url_for('index'))
+        return redirect(url_for('index'))
+    return render_template('index.html', title='hello', form=form)
 
 
 @app.route('/api/<string:method>/')
 def api(method):
     if method == 'get_images':
-        imgs = Image.query.all()
+        imgs = ImageModel.query.all()
         imgs = list(map(
             lambda img: {
                 'id': img.id,
@@ -32,7 +54,7 @@ def api(method):
 
 @app.route('/test')
 def test():
-    q = Image.query.all()
+    q = ImageModel.query.all()
     i = q[0]
     return f'<img src="{url_for("media", filename=str(i.file_path))}", alt="котик">'
 
