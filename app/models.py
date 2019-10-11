@@ -4,7 +4,7 @@ from os import listdir
 from os.path import join, normpath, isfile
 
 
-class Image(db.Model):
+class ImageModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(64), unique=True, index=True)
     file_path = db.Column(db.String(128), unique=True, index=True)
@@ -30,4 +30,4 @@ class Image(db.Model):
         file.save(join(BASE_DIR), 'media', 'thumbnails', self.file_name)
 
     def __repr__(self):
-        return f'<Image file_name="{self.file_name}">'
+        return f'<ImageModel file_name="{self.file_name}">'
