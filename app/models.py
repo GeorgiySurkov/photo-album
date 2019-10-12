@@ -23,11 +23,17 @@ class ImageModel(db.Model):
         self.file_path = f'images/{file}'
         self.thumbnail_path = f'thumbnails/{file}'
 
-    def save_image(self, file):
-        file.save(join(BASE_DIR), 'media', 'images', self.file_name)
+    def save_image(self, image_file):
+        image_file.save(join(BASE_DIR), 'media', 'images', self.file_name)
 
-    def save_thumbnail(self, file):
-        file.save(join(BASE_DIR), 'media', 'thumbnails', self.file_name)
+    def save_thumbnail(self, image_file):
+        width, height = image_file.size
+        side = min(width, height)
+        left, upper = (width - side) // 2, (height - side) // 2
+        right, lower = left + side, upper + side
+        image_file = image_file.crop((left, upper, right, lower))
+        image_file.thumbnail((200, 200))
+        image_file.save(join(BASE_DIR), 'media', 'thumbnails', self.file_name)
 
     def __repr__(self):
         return f'<ImageModel file_name="{self.file_name}">'

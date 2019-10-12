@@ -1,5 +1,4 @@
 from app import app, db
-from app.thumbnail import generate_thumbnail
 from app.models import ImageModel
 from app.forms import UploadImageForm
 from flask import (
@@ -8,7 +7,6 @@ from flask import (
 )
 from PIL import Image
 from werkzeug.utils import secure_filename
-from os import path
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -21,10 +19,9 @@ def index():
             i = ImageModel(file_name=f_name)
             db.session.add(i)
             db.session.commit()
-            thumbnail = generate_thumbnail(f)
-            thumbnail.save(path.join(app.config['UPLOAD_FOLDER'], 'thumbnails', f_name))
-            img = Image.open(f)
-            img.save(path.join(app.config['UPLOAD_FOLDER'], 'images', f_name))
+            img_f = Image.open(f)
+            i.save_image(img_f)
+            i.save_thumbnail(img_f)
         except (ImageModel.DecompressionBombWarning, ImageModel.DecompressionBombError):
             flash('Decompression bomb error.')
         except Exception:
@@ -34,7 +31,7 @@ def index():
     return render_template('index.html', title='hello', form=form)
 
 
-@app.route('/api/<string:method>/')
+@app.route('/api/<string:method>')
 def api(method):
     if method == 'get_images':
         imgs = ImageModel.query.all()
