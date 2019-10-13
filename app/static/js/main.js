@@ -7,24 +7,25 @@ new Vue({
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
-        images: [
-            {
-                id: 1,
-                name: 'kotik.jpg',
-                file_url: '/media/images/kotik.jpg',
-                thumbnail_url: '/media/thumbnail/kotik.jpg',
-                showModal: false,
-            },
-            {
-                id: 2,
-                name: 'kotik2.jpg',
-                file_url: '/media/images/kotik2.jpg',
-                thumbnail_url: '/media/thumbnail/kotik2.jpg',
-                showModal: false,
-            },
-        ],
+        images: null,
+        loading: true,
         pageNumber: 0,
         size: 6
+    },
+    mounted() {
+        axios
+            .get('/api/get_images')
+            .then(response => {
+                images = response.data.images;
+                for (let i = 0; i < images.length; i++) {
+                    images[i].showModal = false;
+                }
+                this.images = images;
+            })
+            .catch(error => {
+                console.log(error);
+            })
+            .finally(() => (this.loading = false));
     },
     computed: {
         pageCount() {
