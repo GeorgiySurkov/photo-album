@@ -22,11 +22,14 @@ def index():
             i.save_thumbnail(img_f)
             db.session.add(i)
             db.session.commit()
-        except (Image.DecompressionBombWarning, Image.DecompressionBombError):
+        except (Image.DecompressionBombWarning, Image.DecompressionBombError) as e:
+            print(e)
             flash('Decompression bomb error.')
+        except AssertionError as e:
+            print(e)
+            flash(str(e))
         except Exception:
             flash('Something went wrong while saving file')
-            return redirect(url_for('index'))
         return redirect(url_for('index'))
     return render_template('index.html', title='hello', form=form)
 

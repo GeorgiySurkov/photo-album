@@ -17,8 +17,7 @@ class ImageModel(db.Model):
             if isfile(join(BASE_DIR, normpath('media/images'), file)):
                 files.append(file)
         file = self.file_name
-        if file in files:
-            raise ValueError('file with this name already exist')
+        assert file not in files, 'File with this name already exist'
         f_name, f_extension = file.rsplit('.', 1)
         self.file_path = f'images/{file}'
         self.thumbnail_path = f'thumbnails/{file}'
