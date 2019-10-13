@@ -48,6 +48,18 @@ def api(method):
             imgs
         ))
         return jsonify({'images': imgs})
+    elif method == 'delete_image':
+        if 'id' in request.args:
+            img_id = request.args['id']
+        else:
+            abort(404)
+            return
+        img = ImageModel.query.get_or_404(img_id)
+        img.delete_image()
+        img.delete_thumbnail()
+        db.session.delete(img)
+        db.session.commit()
+        return jsonify({'status': 'ok'})
     else:
         abort(404)
 

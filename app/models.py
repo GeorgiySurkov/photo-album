@@ -1,6 +1,6 @@
 from app import db, app
 from config import BASE_DIR
-from os import listdir
+from os import listdir, remove
 from os.path import join, normpath, isfile
 
 
@@ -33,6 +33,12 @@ class ImageModel(db.Model):
         image_file = image_file.crop((left, upper, right, lower))
         image_file.thumbnail((200, 200))
         image_file.save(join(app.config['UPLOAD_FOLDER'], 'thumbnails', self.file_name))
+
+    def delete_image(self):
+        remove(join(app.config['UPLOAD_FOLDER'], 'images', self.file_name))
+
+    def delete_thumbnail(self):
+        remove(join(app.config['UPLOAD_FOLDER'], 'thumbnails', self.file_name))
 
     def __repr__(self):
         return f'<ImageModel file_name="{self.file_name}">'

@@ -51,7 +51,14 @@ form > div {
     grid-area: main;
     text-align: center;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.image-container > button {
+    padding: 0;
+    margin: 0;
+    border: black;
+    max-width: 200px;
 }
 
 .footer {
@@ -72,7 +79,7 @@ form > div {
 }
 
 .image {
-    max-width: 70vw;
+    max-width: 60vw;
 }
 
 .modal-wrapper {
@@ -82,7 +89,7 @@ form > div {
 
 .modal-container {
   width: 80%;
-  margin: 0px auto;
+  margin: 0 auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;

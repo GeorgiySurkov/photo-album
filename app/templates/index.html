@@ -44,7 +44,6 @@
             <form action="" method="post" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 <div>
-                    {{ form.image.label }}
                     {{ form.image() }}
                 </div>
                 <div>
@@ -55,11 +54,19 @@
         <div class="main">
             <div v-if="loading">Loading...</div>
             <template v-else>
-                <div class="images-container" v-for="image in paginatedData">
-                    <button @click="image.showModal = true">Show image [[ image.name ]]</button>
-                    <modal v-if="image.showModal" @close="image.showModal = false">
+                <div class="image-container" v-for="image in paginatedData">
+                    <button @click="image.showModal = true"><img class="thumbnail" :src="image.thumbnail_url" :alt="image.name"></button>
+                    <modal v-if="image.showModal" >
                         <div slot="header">[[ image.name ]]</div>
-                        <div slot="body"><img class="image" v-bind:src="image.file_url" v-bind:alt="image.name"></div>
+                        <div slot="body"><img class="image" :src="image.file_url" :alt="image.name"></div>
+                        <div slot="footer">
+                            <button @click="deleteImage(image.id)">
+                                Delete [[ image.name ]]
+                            </button>
+                            <button class="modal-default-button" @click="image.showModal = false">
+                                Close
+                            </button>
+                        </div>
                     </modal>
                 </div>
             </template>
@@ -69,12 +76,12 @@
                 <button
                         :disabled="pageNumber === 0"
                         @click="prevPage">
-                    Previous
+                    <<<
                 </button>
                 <button
                         :disabled="pageNumber >= pageCount -1"
                         @click="nextPage">
-                    Next
+                    >>>
                 </button>
             </template>
         </div>
