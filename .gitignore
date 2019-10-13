@@ -211,3 +211,4 @@ __pycache__
 app.db
 *.jpg
 *.jpeg
+config.py
