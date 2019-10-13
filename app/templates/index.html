@@ -60,11 +60,12 @@
                         <div slot="header">[[ image.name ]]</div>
                         <div slot="body"><img class="image" :src="image.file_url" :alt="image.name"></div>
                         <div slot="footer">
+                            <a :href="image.file_url + '?type=attach'">Загрузить</a>
                             <button @click="deleteImage(image.id)">
-                                Delete [[ image.name ]]
+                                Удалить [[ image.name ]]
                             </button>
                             <button class="modal-default-button" @click="image.showModal = false">
-                                Close
+                                Закрыть
                             </button>
                         </div>
                     </modal>

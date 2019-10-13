@@ -10,7 +10,7 @@ new Vue({
         images: null,
         loading: true,
         pageNumber: 0,
-        size: 6
+        size: 20
     },
     mounted() {
         this.updateImages();

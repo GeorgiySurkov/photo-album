@@ -78,6 +78,8 @@ def media(filename):
         'thumbnails'
     )
     if filename.split('/')[0] in accepted_dirs:
+        if 'type' in request.args and request.args['type'] == 'attach':
+            return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
         return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
     else:
         abort(404)
