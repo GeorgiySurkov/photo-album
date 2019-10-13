@@ -24,7 +24,7 @@ class ImageModel(db.Model):
         self.thumbnail_path = f'thumbnails/{file}'
 
     def save_image(self, image_file):
-        image_file.save(join(BASE_DIR), 'media', 'images', self.file_name)
+        image_file.save(join(app.config['UPLOAD_FOLDER'], 'images', self.file_name))
 
     def save_thumbnail(self, image_file):
         width, height = image_file.size
@@ -33,7 +33,7 @@ class ImageModel(db.Model):
         right, lower = left + side, upper + side
         image_file = image_file.crop((left, upper, right, lower))
         image_file.thumbnail((200, 200))
-        image_file.save(join(BASE_DIR), 'media', 'thumbnails', self.file_name)
+        image_file.save(join(app.config['UPLOAD_FOLDER'], 'thumbnails', self.file_name))
 
     def __repr__(self):
         return f'<ImageModel file_name="{self.file_name}">'

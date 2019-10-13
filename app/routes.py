@@ -17,12 +17,12 @@ def index():
         f_name = secure_filename(f.filename)
         try:
             i = ImageModel(file_name=f_name)
-            db.session.add(i)
-            db.session.commit()
             img_f = Image.open(f)
             i.save_image(img_f)
             i.save_thumbnail(img_f)
-        except (ImageModel.DecompressionBombWarning, ImageModel.DecompressionBombError):
+            db.session.add(i)
+            db.session.commit()
+        except (Image.DecompressionBombWarning, Image.DecompressionBombError):
             flash('Decompression bomb error.')
         except Exception:
             flash('Something went wrong while saving file')
