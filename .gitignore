@@ -206,11 +206,9 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/python,pycharm+all,visualstudiocode
 
+config.py
 venv
 __pycache__
 app.db
 *.jpg
 *.jpeg
-config.py
-config.py
-config.py
