@@ -24,14 +24,14 @@ def index():
             db.session.commit()
         except (Image.DecompressionBombWarning, Image.DecompressionBombError) as e:
             print(e)
-            flash('Decompression bomb error.')
+            flash('Decompression bomb error.', category='error')
         except AssertionError as e:
             print(e)
-            flash(str(e))
+            flash(str(e), category='error')
         except Exception:
-            flash('Something went wrong while saving file')
+            flash('Что-то пошло не так, пока мы сохраняли вашу фотографию :(', category='error')
         return redirect(url_for('index'))
-    return render_template('index.html', title='hello', form=form)
+    return render_template('index.html', title='Мой альбом', form=form)
 
 
 @app.route('/api/<string:method>')

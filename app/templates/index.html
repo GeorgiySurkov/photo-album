@@ -3,6 +3,7 @@
 {% block head %}
     {#  replace with production vue  #}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/x-template" id="modal-template">
@@ -47,39 +48,50 @@
                     {{ form.image() }}
                 </div>
                 <div>
-                    {{ form.submit() }}
+                    {{ form.submit(class='button') }}
                 </div>
             </form>
         </div>
         <div class="main">
+            {% with messages =  get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flashed-messages">
+                        {% for category, message in messages %}
+                            <p class="{{ category }}">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
             <div v-if="loading">Loading...</div>
-            <template v-else>
+            <div class="images" v-else>
                 <div class="image-container" v-for="image in paginatedData">
                     <button @click="image.showModal = true"><img class="thumbnail" :src="image.thumbnail_url" :alt="image.name"></button>
                     <modal v-if="image.showModal" >
                         <div slot="header">[[ image.name ]]</div>
                         <div slot="body"><img class="image" :src="image.file_url" :alt="image.name"></div>
                         <div slot="footer">
-                            <a :href="image.file_url + '?type=attach'">Загрузить</a>
-                            <button @click="deleteImage(image.id)">
-                                Удалить [[ image.name ]]
-                            </button>
-                            <button class="modal-default-button" @click="image.showModal = false">
+                            <button class="modal-default-button button" @click="image.showModal = false">
                                 Закрыть
                             </button>
+                            <button @click="deleteImage(image.id)" class="button modal-default-button">
+                                Удалить [[ image.name ]]
+                            </button>
+                            <a class="button modal-default-button" :href="image.file_url + '?type=attach'">Загрузить</a>
                         </div>
                     </modal>
                 </div>
-            </template>
+            </div>
         </div>
         <div class="footer">
             <template v-if="!loading">
                 <button
+                        class="button"
                         :disabled="pageNumber === 0"
                         @click="prevPage">
                     <<<
                 </button>
                 <button
+                        class="button"
                         :disabled="pageNumber >= pageCount -1"
                         @click="nextPage">
                     >>>
