@@ -64,7 +64,7 @@
             {% endwith %}
             <div v-if="loading">Loading...</div>
             <div class="images" v-else>
-                <div class="image-container" v-for="image in paginatedData">
+                <div class="image-container" v-for="image in imagesToShow">
                     <button @click="image.showModal = true"><img class="thumbnail" :src="image.thumbnail_url" :alt="image.name"></button>
                     <modal v-if="image.showModal" >
                         <div slot="header">[[ image.name ]]</div>
@@ -76,7 +76,7 @@
                             <button @click="deleteImage(image.id)" class="button modal-default-button">
                                 Удалить [[ image.name ]]
                             </button>
-                            <a class="button modal-default-button" :href="image.file_url + '?type=attach'">Загрузить</a>
+                            <a class="button modal-default-button" :href="image.file_url + '?type=attach'">Скачать</a>
                         </div>
                     </modal>
                 </div>
@@ -86,15 +86,9 @@
             <template v-if="!loading">
                 <button
                         class="button"
-                        :disabled="pageNumber === 0"
-                        @click="prevPage">
-                    <<<
-                </button>
-                <button
-                        class="button"
-                        :disabled="pageNumber >= pageCount -1"
-                        @click="nextPage">
-                    >>>
+                        :disabled="images_on_page == images.length"
+                        @click="showMoreImages">
+                    Показать больше картинок
                 </button>
             </template>
         </div>
