@@ -210,5 +210,7 @@ config.py
 venv
 __pycache__
 app.db
-*.jpg
-*.jpeg
+/media/images/*.jpeg
+/media/images/*.jpg
+/media/images/*.gif
+/media/images/*.png
