@@ -46,8 +46,6 @@ new Vue({
         scroll() {
             window.onscroll = () => {
                 let closeToBottom = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight - 50;
-                console.log(document.documentElement.scrollTop + window.innerHeight)
-                console.log(document.documentElement.offsetHeight)
                 if (closeToBottom) {
                     if (this.images_on_page <= this.images.length) {
                         this.showMoreImages();
