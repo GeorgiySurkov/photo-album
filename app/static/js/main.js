@@ -9,7 +9,6 @@ new Vue({
     data: {
         images: null,
         loading: true,
-        loadingPortion: false,
         images_on_page: null,
         size: 9,
     },
@@ -46,10 +45,11 @@ new Vue({
     methods: {
         scroll() {
             window.onscroll = () => {
-                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-
-                if (bottomOfWindow) {
-                    if (this.images_on_page != this.images.length) {
+                let closeToBottom = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight - 50;
+                console.log(document.documentElement.scrollTop + window.innerHeight)
+                console.log(document.documentElement.offsetHeight)
+                if (closeToBottom) {
+                    if (this.images_on_page <= this.images.length) {
                         this.showMoreImages();
                     }
                 }
@@ -59,7 +59,7 @@ new Vue({
             if (this.images_on_page + this.size < this.images.length) {
                 this.images_on_page += this.size;
             } else {
-                this.images_on_page += this.images.length - this.images_on_page;
+                this.images_on_page = this.images.length;
             }
         },
         deleteImage(id) {
