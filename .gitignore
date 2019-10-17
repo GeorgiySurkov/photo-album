@@ -214,3 +214,7 @@ app.db
 /media/images/*.jpg
 /media/images/*.gif
 /media/images/*.png
+/media/thumbnails/*.jpeg
+/media/thumbnails/*.jpg
+/media/thumbnails/*.gif
+/media/thumbnails/*.png
