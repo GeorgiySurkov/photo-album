@@ -7,6 +7,7 @@ from flask import (
 )
 from PIL import Image
 from werkzeug.utils import secure_filename
+ACCEPTED_EXTENSIONS = {'jpg', 'jpeg', 'bmp', 'png', 'gif'}
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -16,6 +17,10 @@ def index():
         f = form.image.data
         f_name = secure_filename(f.filename)
         try:
+            file, extension = f_name.rsplit('.', 1)
+            if extension not in ACCEPTED_EXTENSIONS:
+                flash('The file should be an image', category='error')
+                return redirect(url_for('index'))
             i = ImageModel(file_name=f_name)
             img_f = Image.open(f)
             i.save_image(img_f)
