@@ -9,10 +9,11 @@ new Vue({
     data: {
         images: null,
         loading: true,
+        loadingPortion: false,
         images_on_page: null,
-        size: 20,
+        size: 9,
     },
-    mounted() {
+    created() {
         axios
             .get('/api/get_images')
             .then(response => {
@@ -34,12 +35,26 @@ new Vue({
                 }
             });
     },
+    mounted() {
+        this.scroll();
+    },
     computed: {
         imagesToShow() {
             return this.images.slice(0, this.images_on_page);
         }
     },
     methods: {
+        scroll() {
+            window.onscroll = () => {
+                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+                if (bottomOfWindow) {
+                    if (this.images_on_page != this.images.length) {
+                        this.showMoreImages();
+                    }
+                }
+            }
+        },
         showMoreImages() {
             if (this.images_on_page + this.size < this.images.length) {
                 this.images_on_page += this.size;

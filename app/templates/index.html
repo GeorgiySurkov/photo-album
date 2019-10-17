@@ -81,6 +81,9 @@
                     </modal>
                 </div>
             </div>
+            <div v-if="loading_portion">
+                Loading...
+            </div>
         </div>
         <div class="footer">
             <template v-if="!loading">
