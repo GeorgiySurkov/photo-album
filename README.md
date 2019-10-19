@@ -6,7 +6,7 @@
 
 ![modal window](https://sun9-10.userapi.com/c854520/v854520313/12d390/Ox_guXB8BVE.jpg "Modal window")
 
-![download images](https://sun9-67.userapi.com/c851332/v851332136/1f0f12/ONHm--D4eZo.jpg "Dowload images")
+![download images](https://sun9-24.userapi.com/c854520/v854520313/12d3a2/9t_3jD0aWR8.jpg "Download images")
 
 ### Запуск
 1. `git clone https://github.com/GeorgiySurkov/photo_album.git <dir_name>`
