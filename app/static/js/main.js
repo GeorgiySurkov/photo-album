@@ -10,7 +10,7 @@ new Vue({
         images: null,
         loading: true,
         images_on_page: null,
-        size: 9,
+        size: 21,
     },
     created() {
         axios
